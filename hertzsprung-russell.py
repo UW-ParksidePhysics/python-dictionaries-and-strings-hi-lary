@@ -5,7 +5,7 @@ from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
 
 astronomical_unit = 1.495978707e11  # meters
-meters_to_light_years = 1./9.4607e15
+meters_to_light_years = 1. / 9.4607e15
 
 
 def star_colormap(star_b_minus_vs):
@@ -65,19 +65,27 @@ def parallax_to_distance(parallax):
 def apparent_to_absolute_magnitude(apparent_magnitude, distance):
     """Calculate absolute magnitude from apparent magnitude and distance in meters"""
     distance_in_parsecs = distance / (648000. * astronomical_unit / np.pi)
-    absolute_magnitude = apparent_magnitude - 5*np.log10(distance_in_parsecs) + 5
+    absolute_magnitude = apparent_magnitude - 5 * np.log10(distance_in_parsecs) + 5
     return absolute_magnitude
 
 
 def read_file(filename):
     """Read four column data from HIPPARCOS satellite and return a nested dictionary"""
     # Read in as nested dictionary
+    hipparcos_data_array = open(filename, 'r')
+    hipparcos_data = hipparcos_data_array.readlines()
     # hipparcos_data = {'(star catalog number':
     #                       { 'parallax' : ... , 'apparent_magnitude' : ... , 'blue_minus_visual' : ... },
     #   ... }
 
+    hipparcos_data_array.close()
+    # f_value = int(data_contents[2].split()[2])
+
     return hipparcos_data
 
+
+contents = read_file('hipparcos_data.txt')
+print(contents)
 
 # Apply read function to the data file and produce a nested dictionary
 hipparcos_dictionary = read_file('hipparcos_data.txt')
@@ -91,13 +99,13 @@ hipparcos_dictionary = read_file('hipparcos_data.txt')
 #           named star_b_minus_vs
 
 # Use dark style for plot
-plt.style.use('dark_background')
+# plt.style.use('dark_background')
 
 # Reverse the absolute magnitude so that negative values appear on top
-star_absolute_magnitudes = np.negative(star_absolute_magnitudes)
+# star_absolute_magnitudes = np.negative(star_absolute_magnitudes)
 
 # Get color map to match star colors
-scaled_b_minus_v, hr_diagram_colormap = star_colormap(star_b_minus_vs)
+# scaled_b_minus_v, hr_diagram_colormap = star_colormap(star_b_minus_vs)
 
 # Create axes labels
 
@@ -106,5 +114,5 @@ scaled_b_minus_v, hr_diagram_colormap = star_colormap(star_b_minus_vs)
 # Define the scatter marker size in points squared (make it similar to the model figure)
 
 # Scatter plot of B-V vs absolute magnitude
-plt.scatter(star_b_minus_vs, star_absolute_magnitudes, c=scaled_b_minus_v, cmap=hr_diagram_colormap)
-plt.show()
+# plt.scatter(star_b_minus_vs, star_absolute_magnitudes, c=scaled_b_minus_v, cmap=hr_diagram_colormap)
+# plt.show()
