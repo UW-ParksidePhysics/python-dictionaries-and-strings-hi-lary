@@ -1,5 +1,5 @@
 # exercise 6.1
-
+# helppppp
 
 def read_data(filename):
     infile = open(filename, 'r')
