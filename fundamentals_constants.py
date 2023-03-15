@@ -1,29 +1,21 @@
 # exercise 6.1
-# helppppp
 
 def read_data(filename):
-    infile = open(filename, 'r')
-    lines = infile.readlines()
-    infile.close()
+    infile = open(filename, 'r').readlines()[2:-1]
     constants = {}
-    for line in lines:
+    for line in infile:
         words = line.split()
-        if line == lines[0] or line == lines[1]:
-            pass
-
-        elif len(words[:-1]) == 3:
-            constant = float(words[1])
-            object = words[0] + ' ' + words[2]
-        elif len(words[:-1]) == 2:
-            constant = float(words[1])
+        constant = float(words[-2])
+        if len(words[:-2]) == 3:
+            object = words[0] + ' ' + words[1] + ' ' + words[2]
+        elif len(words[:-2]) == 2:
             object = words[0] + ' ' + words[1]
         else:
-            constant = float(words[1])
             object = words[0]
-
         constants[object] = constant
-    infile.close()
     return constants
 
 
 constants = read_data('constants.txt')
+for object, constant in constants.items():
+    print(f'{object}, {constant}')
